@@ -1,0 +1,17 @@
+target/
+src/test/
+
+.settings/
+.idea/
+
+*.iml
+*.class
+*.jar
+*.war
+
+.classpath
+.project
+.git-credentials
+.*-credentials
+
+node_modules/
