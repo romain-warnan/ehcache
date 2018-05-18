@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,11 +19,13 @@ public class PublicationsService {
 		repository.add(Publication.of(3L, "Enquête Flux Touristiques"));
 	}
 	
+	@Cacheable("publicationsCache")
 	public List<Publication> findAll() {
 		this.search(5);
 		return repository;
 	}
 	
+	@Cacheable("publicationsCache")
 	public Optional<Publication> findOne(Long id) {
 		this.search(3);
 		return repository.stream()

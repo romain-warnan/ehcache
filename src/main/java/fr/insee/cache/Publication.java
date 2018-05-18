@@ -1,6 +1,9 @@
 package fr.insee.cache;
 
-public class Publication {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Publication implements Serializable {
 
 	private Long id;
 	private String title;
