@@ -25,7 +25,7 @@ public class PublicationsService {
 		return repository;
 	}
 	
-	@Cacheable("publicationsCache")
+	@Cacheable(cacheNames = "publicationsCache", key = "#id")
 	public Optional<Publication> findOne(Long id) {
 		this.search(3);
 		return repository.stream()
