@@ -8,6 +8,7 @@ src/test/
 *.class
 *.jar
 *.war
+*.tmp
 
 .classpath
 .project
@@ -15,3 +16,12 @@ src/test/
 .*-credentials
 
 node_modules/
+public/test/
+public/*.yml
+public/bower.json
+public/CONTRIBUTING.md
+public/demo.html
+public/Gruntfile.js
+public/LICENSE
+public/package.json
+public/README.md
