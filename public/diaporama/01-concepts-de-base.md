@@ -9,6 +9,9 @@
 <!-- .slide: class="slide" -->
 ### Qu’est ce qu’un cache applicatif ?
 
+
+
+
 ```bash
 git clone https://github.com/romain-warnan/git-au-quotidien.git
 cd git-au-quotidien
