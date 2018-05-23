@@ -9,16 +9,9 @@
 <!-- .slide: class="slide" -->
 ### Qu’est ce qu’un cache applicatif ?
 
+Conserver le résultat de certaines fonctions
+ - utilisation de mémoire &#8599;
+ - temps de calcul &#8600;
 
-
-
-```bash
-git clone https://github.com/romain-warnan/git-au-quotidien.git
-cd git-au-quotidien
-```
-
-Différence majeure par rapport à SVN
- - le dépôt entier est cloné : y compris l’historique
-  - répertoire `.git/`
-  - `git log`
- - dépôt local ≠ dépôt distant
+Le résultat est associé aux paramètres d’appel
+ - clé de cache
