@@ -1,3 +1,7 @@
+.reveal {
+	color: #666d7d;
+}
+
 .reveal .main-title {
     /* Empty */
 }
@@ -17,10 +21,11 @@
 .reveal h5,
 .reveal h6 {
     text-transform: none;
+    color: #666d7d;
 }
 
 .reveal h3 {
-	color: #f05033;
+	color: #ee8d34;
 }
 
 .reveal .chapter h2 {
