@@ -2,10 +2,10 @@ package fr.insee.cache;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.cache.annotation.Cacheable;
+import javax.cache.annotation.CacheResult;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,18 +19,19 @@ public class PublicationsService {
 		repository.add(Publication.of(3L, "Enquête Flux Touristiques"));
 	}
 	
-	@Cacheable("publicationsCache")
+	@CacheResult(cacheName = "findAllPublicationsCache")
 	public List<Publication> findAll() {
 		this.search(5);
 		return repository;
 	}
 	
-	@Cacheable(cacheNames = "publicationsCache", key = "#id")
-	public Optional<Publication> findOne(Long id) {
+	@CacheResult(cacheName = "publicationsCache", exceptionCacheName = "exceptionsCache", cachedExceptions = NoResultFoundException.class)
+	public Publication findOne(Long id) throws NoResultFoundException {
 		this.search(3);
 		return repository.stream()
 			.filter(p -> p.getId().equals(id))
-			.findFirst();
+			.findFirst()
+			.orElseThrow(() -> new NoResultFoundException());
 	}
 	
 	private void search(long time) {

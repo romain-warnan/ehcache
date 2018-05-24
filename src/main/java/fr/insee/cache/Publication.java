@@ -30,4 +30,11 @@ public class Publication implements Serializable {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Publication {id: %d, title: %s}", id, title);
+	}
+	
+	
 }

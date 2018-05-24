@@ -1,7 +1,5 @@
 package fr.insee.cache;
 
-import java.util.Optional;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,10 +26,11 @@ public class PublicationsResource {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Response publication(@PathParam("id") Long id) {
-		Optional<Publication> publication = service.findOne(id);
-		if(publication.isPresent()) {
-			return Response.ok(publication.get()).build();
+		try {
+			return Response.ok(service.findOne(id)).build();
 		}
-		return Response.status(Status.NOT_FOUND).build();
+		catch (NoResultFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
 }

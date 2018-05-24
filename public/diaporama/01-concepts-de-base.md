@@ -60,7 +60,7 @@ public Publication genererPublication(Long id) {
 
 Avec cache
 ```java
-@Cacheable("publicationsCache") // Une simple déclaration suffit
+@CacheResult(cacheName = "publicationsCache") // Une simple déclaration suffit
 public Publication genererPublication(Long id) {
 	Publication publication = … // Calculs coûteux
 	return publication;

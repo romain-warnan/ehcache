@@ -1,6 +1,8 @@
 <config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.ehcache.org/v3'>
 
 	<cache alias="publicationsCache">
+		<key-type>java.lang.Long</key-type>
+    	<value-type>fr.insee.cache.Publication</value-type>
 		<listeners>
 			<listener>
 				<class>fr.insee.cache.PublicationsCacheListener</class>
@@ -13,6 +15,9 @@
 			<heap unit="entries">1000</heap>
 			<offheap unit="MB">500</offheap>
 		</resources>
+	</cache>
+	<cache alias="exceptionsCache">
+		<heap unit="entries">1000</heap>
 	</cache>
 </config>
 

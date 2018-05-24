@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PublicationsCacheListener implements CacheEventListener<Object, Object> {
-
+	
     @Override
     public void onEvent(CacheEvent<?, ?> event) {
-        System.out.println("Romain !");
+    	System.out.println(String.format("Ajout dans le cache : %s => %s", event.getKey(), event.getNewValue()));
     }
 }
