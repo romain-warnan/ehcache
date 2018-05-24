@@ -27,7 +27,7 @@ public class PublicationsResource {
 	@Produces(MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Response publication(@PathParam("id") Long id) {
 		try {
-			return Response.ok(service.findOne(id)).build();
+			return Response.ok(service.findOne(id, id.toString())).build();
 		}
 		catch (NoResultFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

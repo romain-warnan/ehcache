@@ -102,7 +102,7 @@
     margin-right: 7px;
 }
 
-.reveal ul li {
+.reveal ul li, .reveal ol li {
     font-size: 80%;
     color: #ee8d34;
 }

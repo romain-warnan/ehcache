@@ -110,7 +110,7 @@ spring.cache.jcache.config=classpath:ehcache.xml
 ehcache.xml
 Exemple minimal :
 ```xml
-<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.ehcache.org/v3'>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.ehcache.org/v3">
 	<cache alias="publicationsCache" uses-template="templateCache">
 		<heap unit="entries">1000</heap>
 	</cache>
@@ -168,3 +168,60 @@ Les possibilités :
 	</listeners>
 </cache-template>
 ```
+  
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Clés de cache (1)
+A. La fonction ne prends qu’un seul paramètre
+ - la clé est ce paramètre
+ - attention aux méthode *hashcode* et *equals*
+
+```java
+@CacheResult(cacheName = "publicationsCache")
+public Publication genererPublication(Long id) {...}
+
+@CacheResult(cacheName = "publicationsCache")
+public Publication publicationAssociee(Panorama panorama) {...}
+```
+ 
+B. La fonction ne prend aucun paramètre
+ - utiliser un cache spécifique
+
+```java
+@CacheResult(cacheName = "toutesPublicationsCache")
+public List<Publication> toutesPublications() {...}
+```
+  
+```xml
+<cache alias="toutesPublicationsCache">
+	<heap unit="entries">1</heap>
+</cache>
+```
+
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Clés de cache (2)
+
+C. La fonction prend plusieurs paramètres
+
+ - utiliser l’annotation `@CacheKey` sur un seul paramètre &rarr; cas A.
+ 
+```java
+@CacheResult(cacheName = "publicationsCache")
+public String genererPublication(@CacheKey Publication publication, String contextPath) {...}
+```
+
+ - La clé est composite : `SimpleKey`
+
+```java
+@CacheResult(cacheName = "publicationsCache")
+public String genererPublicationAvecSommaire(Publication publication, Sommaire sommaire) {...}
+```
+
+D. On peut toujours utiliser un `cacheKeyGenerator`
