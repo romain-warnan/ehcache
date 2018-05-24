@@ -73,6 +73,8 @@ public Publication genererPublication(Long id) {
 
 <!-- .slide: class="slide" -->
 ### Mise en place du cache avec Spring
+
+pom.xml
 ```xml
 <dependency> <!-- Spécification : Cache, Cache.Entry, CacheManager et CacheProvider -->
 	<groupId>javax.cache</groupId>
@@ -84,17 +86,47 @@ public Publication genererPublication(Long id) {
 </dependency>
 ```
 
+CacheConfig.java
 ```java
 @Configuration
-@EnableCaching
+@EnableCaching // Active le cache
 public class CacheConfig {
-
-	@Autowired
-	private CacheManager cacheManager;
-
-	@PostConstruct
-	public void postConstruct() {
-		cacheManager.getCacheNames().forEach(System.out::println);
-	}
+	// Déclaration de beans
 }
 ```
+
+ application.properties
+```
+spring.cache.jcache.config=classpath:ehcache.xml
+```
+
+
+===
+
+
+<!-- .slide: class="slide" -->
+Configuration des caches en XML
+
+ehcache.xml
+```xml
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.ehcache.org/v3'>
+	<cache alias="publicationsCache">
+		<resources>
+			<heap unit="entries">1000</heap>
+			<offheap unit="MB">100</offheap>
+		</resources>
+	</cache>
+</config>
+```
+
+Les possibilités :
+ - durée de vie des éléments du cache
+  - éternel, une minute…
+ - typage du cache
+  - clés et valeurs
+ - stockage et taille du cache
+  - *heap*, *swap*, 100 MB, 1000 entrées…
+ - stockage persistent après redémarrage
+ - factorisation possible grâce à la notion de *template* de cache
+ - définitions de *serializers*, de *copiers*
+  - optimisation fine (les objets du cache sont des copies)
