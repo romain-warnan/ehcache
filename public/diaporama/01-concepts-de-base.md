@@ -105,16 +105,14 @@ spring.cache.jcache.config=classpath:ehcache.xml
 
 
 <!-- .slide: class="slide" -->
-Configuration des caches en XML
+### Configuration des caches en XML
 
 ehcache.xml
+Exemple minimal :
 ```xml
 <config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.ehcache.org/v3'>
-	<cache alias="publicationsCache">
-		<resources>
-			<heap unit="entries">1000</heap>
-			<offheap unit="MB">100</offheap>
-		</resources>
+	<cache alias="publicationsCache" uses-template="templateCache">
+		<heap unit="entries">1000</heap>
 	</cache>
 </config>
 ```
@@ -128,5 +126,45 @@ Les possibilités :
   - *heap*, *swap*, 100 MB, 1000 entrées…
  - stockage persistent après redémarrage
  - factorisation possible grâce à la notion de *template* de cache
+ - ajout de *listeners* sur les évènements
+  - création, suppression, modification, expiration
  - définitions de *serializers*, de *copiers*
   - optimisation fine (les objets du cache sont des copies)
+  
+
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Exemple plus complet
+
+```xml
+<!-- Un premier cache typé -->
+<cache alias="publicationsCache" uses-template="templateCache" >
+	<key-type>java.lang.Long</key-type>
+	<value-type>fr.insee.cache.Publication</value-type>
+	<resources>
+		<heap unit="entries">1000</heap>
+		<offheap unit="MB">500</offheap>
+	</resources>
+</cache>
+<!-- Un second cache non typé pour les exceptions -->
+<cache alias="exceptionsCache">
+	<heap unit="entries">1000</heap>
+</cache>
+<!-- Un template de cache qui défini des listeners -->
+<cache-template name="templateCache"> 
+	<listeners>
+		<listener>
+			<class>fr.insee.cache.PublicationsCacheListener</class>
+			<event-firing-mode>ASYNCHRONOUS</event-firing-mode>
+			<event-ordering-mode>UNORDERED</event-ordering-mode>
+			<events-to-fire-on>CREATED</events-to-fire-on>
+			<events-to-fire-on>REMOVED</events-to-fire-on>
+			<events-to-fire-on>EXPIRED</events-to-fire-on>
+			<events-to-fire-on>UPDATED</events-to-fire-on>
+		</listener>
+	</listeners>
+</cache-template>
+```
