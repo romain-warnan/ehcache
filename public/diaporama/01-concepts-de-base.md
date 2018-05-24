@@ -73,19 +73,28 @@ public Publication genererPublication(Long id) {
 
 <!-- .slide: class="slide" -->
 ### Mise en place du cache avec Spring
-pom.xml
 ```xml
-<dependency>
+<dependency> <!-- Spécification : Cache, Cache.Entry, CacheManager et CacheProvider -->
 	<groupId>javax.cache</groupId>
-	<artifactId>cache-api</artifactId> <!-- Spécification : Cache, Cache.Entry, CacheManager et CacheProvider -->
+	<artifactId>cache-api</artifactId> 
 </dependency>
-<dependency>
+<dependency> <!-- Implémentation -->
 	<groupId>org.ehcache</groupId>
-	<artifactId>ehcache</artifactId> <!-- Implémentation -->
+	<artifactId>ehcache</artifactId> 
 </dependency>
 ```
 
-@SpringBootApplication
+```java
+@Configuration
 @EnableCaching
-public class CacheApplication {
+public class CacheConfig {
+
+	@Autowired
+	private CacheManager cacheManager;
+
+	@PostConstruct
+	public void postConstruct() {
+		cacheManager.getCacheNames().forEach(System.out::println);
+	}
+}
 ```

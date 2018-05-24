@@ -78,11 +78,16 @@
 .reveal code {
     font-size: 90%;
     line-height: 22px;
+    font-weight: bold;
 }
 
 .reveal pre code {
     max-height: none;
 }
+
+.reveal code .hljs-comment {
+	color: #ff80c0;
+} 
 
 .reveal ul {
     list-style-type: none;
