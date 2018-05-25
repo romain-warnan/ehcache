@@ -23,6 +23,13 @@ public class PublicationsResource {
 	}
 	
 	@GET
+	@Path("/latest")
+	@Produces(MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public Response latestPublications() {
+		return Response.ok(service.findLatest()).build();
+	}
+	
+	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Response publication(@PathParam("id") Long id) {

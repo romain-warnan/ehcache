@@ -30,8 +30,12 @@ public class NoParamKeyGenerator implements CacheKeyGenerator {
 		}
 		
 		@Override
-		public boolean equals(Object other) {
-			return key.equals(other);
+		public boolean equals(Object object) {
+			if(object instanceof NoParamKey) {
+				NoParamKey other = (NoParamKey) object;
+				return this.key.equals(other.key);
+			}
+			return false;
 		}
 
 		@Override

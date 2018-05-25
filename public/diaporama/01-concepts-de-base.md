@@ -177,7 +177,7 @@ Les possibilités :
 ### Clés de cache (1)
 A. La fonction ne prends qu’un seul paramètre
  - la clé est ce paramètre
- - attention aux méthode *hashcode* et *equals*
+ - attention aux méthode *hashCode* et *equals*
 
 ```java
 @CacheResult(cacheName = "publicationsCache")

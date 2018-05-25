@@ -38,9 +38,9 @@ public class PublicationsService {
 	}
 	
 	@CacheResult(cacheName = "publicationsCache", cacheKeyGenerator = NoParamKeyGenerator.class)
-	public List<Publication> findOdd() {
+	public List<Publication> findLatest() {
 		this.search(3);
-		return repository.stream().filter(p -> p.getId() % 2 == 1).collect(Collectors.toList());
+		return repository.stream().limit(3).collect(Collectors.toList());
 	}
 	
 	@CacheResult(cacheName = "publicationsCache", exceptionCacheName = "exceptionsCache", cachedExceptions = NoResultFoundException.class, cacheKeyGenerator = CacheKeyGenerator.class)
