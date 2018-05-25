@@ -201,10 +201,11 @@ Configuration Java / XML
 
 
 <!-- .slide: class="slide" -->
-### Clés de cache (1)
-A. La fonction ne prends qu’un seul paramètre
- - la clé est ce paramètre
- - attention aux méthode *hashCode* et *equals*
+### Fonction à un seul paramètre
+
+La clé __est__ ce paramètre
+
+Attention aux méthode *hashCode* et *equals*
 
 ```java
 @CacheResult(cacheName = "publicationsCache")
@@ -213,9 +214,15 @@ public Publication genererPublication(Long id) {...}
 @CacheResult(cacheName = "publicationsCache")
 public Publication publicationAssociee(Panorama panorama) {...}
 ```
- 
-B. La fonction ne prend aucun paramètre
- - utiliser un cache spécifique
+
+
+===
+
+
+<!-- .slide: class="slide" --> 
+### Fonction sans paramètre
+
+Utiliser un cache spécifique (ou un générateur de clés)
 
 ```java
 @CacheResult(cacheName = "toutesPublicationsCache")
@@ -233,27 +240,31 @@ public List<Publication> toutesPublications() {...}
 
 
 <!-- .slide: class="slide" -->
-### Clés de cache (2)
+### Fonction avec plusieurs paramètres
 
-C. La fonction prend plusieurs paramètres
-
- - utiliser l’annotation `@CacheKey` sur un seul paramètre &rarr; cas A.
+Utiliser l’annotation `@CacheKey` sur un seul paramètre &rarr; cas à un seul paramètre
  
 ```java
 @CacheResult(cacheName = "publicationsCache")
 public String genererPublication(@CacheKey Publication publication, String contextPath) {...}
 ```
 
- - La clé est composite : `SimpleKey`
+Sinon, la clé est composite : `SimpleKey`
 
 ```java
 @CacheResult(cacheName = "publicationsCache")
 public String genererPublicationAvecSommaire(Publication publication, Sommaire sommaire) {...}
 ```
 
-D. On peut utiliser un `cacheKeyGenerator`
- - pour tous les cas plus compliqués
- - ou pour le cas des fonctions sans paramètres
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Utiliser un `cacheKeyGenerator`
+Pour tous les cas plus compliqués
+
+Pour le cas des fonctions sans paramètres
 
 ```java
 @CacheResult(cacheName = "publicationsCache", cacheKeyGenerator = NoParamKeyGenerator.class)
