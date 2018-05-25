@@ -224,4 +224,47 @@ public String genererPublication(@CacheKey Publication publication, String conte
 public String genererPublicationAvecSommaire(Publication publication, Sommaire sommaire) {...}
 ```
 
-D. On peut toujours utiliser un `cacheKeyGenerator`
+D. On peut utiliser un `cacheKeyGenerator`
+ - pour tous les cas plus compliqués
+ - ou pour le cas des fonctions sans paramètres
+
+```java
+@CacheResult(cacheName = "publicationsCache", cacheKeyGenerator = NoParamKeyGenerator.class)
+public List<Publication> findLatest() {...}
+```
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Exemple de générateur de clé
+
+```java
+public class NoParamKeyGenerator implements CacheKeyGenerator {
+
+	@Override
+	public GeneratedCacheKey generateCacheKey(CacheKeyInvocationContext<? extends Annotation> context) {
+		String key = context.getTarget().getClass().getName() + "." + context.getMethod().getName();
+		return new NoParamKey(key);
+	}
+
+	static class NoParamKey implements GeneratedCacheKey {
+		
+		private String key;
+		
+		public NoParamKey(String key) { this.key = key; }
+
+		@Override
+		public int hashCode() { return key.hashCode(); }
+		
+		@Override
+		public boolean equals(Object object) {
+			if(object instanceof NoParamKey) {
+				NoParamKey other = (NoParamKey) object;
+				return this.key.equals(other.key);
+			}
+			return false;
+		}
+	}
+}
+```
