@@ -320,3 +320,13 @@ public class NoParamKeyGenerator implements CacheKeyGenerator {
 	}
 }
 ```
+<!-- .slide: data-background-image="images/ehcache-logo.png" data-background-size="600px" class="chapter" -->
+## 4
+### Mise à jour du cache
+
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Modifications internes à l'application
