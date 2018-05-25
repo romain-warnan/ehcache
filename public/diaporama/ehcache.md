@@ -103,7 +103,7 @@ public class CacheConfig {
 }
 ```
 
- application.properties
+application.properties
 ```
 spring.cache.jcache.config=classpath:ehcache.xml
 ```
@@ -182,11 +182,24 @@ Les possibilités :
 
 
 <!-- .slide: class="slide" -->
-### TODO Remarques
+### Remarques
 
-jCache vs Ehcache vs Spring cache
+Ne faut pas confondre :
+ - JCache : définition
+  - JSR 107 (mars 2014)
+ - Ehcache : implémentation partielle
+  - Terracotta, version 2 ou 3
+ - Spring cache : surcouche
+  - pour n’importe quelle implémentation
+  - annotations JCache ou spécifique Spring
 
-Configuration Java / XML
+Configuration
+ - Langage :
+  - Java
+  - XML
+ - Format :
+  - Ehcache
+  - JCache
 
 
 ===
@@ -203,7 +216,8 @@ Configuration Java / XML
 <!-- .slide: class="slide" -->
 ### Fonction à un seul paramètre
 
-La clé __est__ ce paramètre
+La clé est ce paramètre
+ - elle a le même type et la même valeur
 
 Attention aux méthode *hashCode* et *equals*
 
