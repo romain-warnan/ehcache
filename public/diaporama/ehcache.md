@@ -71,6 +71,14 @@ public Publication genererPublication(Long id) {
 ===
 
 
+<!-- .slide: data-background-image="images/ehcache-logo.png" data-background-size="600px" class="chapter" -->
+## 2
+### Installation et configuration
+
+
+===
+
+
 <!-- .slide: class="slide" -->
 ### Mise en place du cache avec Spring
 
@@ -168,7 +176,26 @@ Les possibilités :
 	</listeners>
 </cache-template>
 ```
-  
+
+
+===
+
+
+<!-- .slide: class="slide" -->
+### TODO Remarques
+
+jCache vs Ehcache vs Spring cache
+
+Configuration Java / XML
+
+
+===
+
+
+<!-- .slide: data-background-image="images/ehcache-logo.png" data-background-size="600px" class="chapter" -->
+## 3
+### Clés de cache
+
 
 ===
 
