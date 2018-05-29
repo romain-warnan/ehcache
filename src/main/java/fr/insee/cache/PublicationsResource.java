@@ -34,7 +34,20 @@ public class PublicationsResource {
 	@Produces(MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Response publication(@PathParam("id") Long id) {
 		try {
-			return Response.ok(service.findOne(id, id.toString())).build();
+			return Response.ok(service.findOne(id)).build();
+		}
+		catch (NoResultFoundException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+	}
+	
+	@GET
+	@Path("/{id}/edit/{title}")
+	@Produces(MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public Response modifyTitle(@PathParam("id") Long id, @PathParam("title") String title) {
+		try {
+			service.modifyTitle(Publication.of(id), title);
+			return Response.ok().build();
 		}
 		catch (NoResultFoundException e) {
 			return Response.status(Status.NOT_FOUND).build();

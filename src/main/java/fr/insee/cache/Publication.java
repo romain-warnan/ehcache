@@ -17,6 +17,10 @@ public class Publication implements Serializable {
 		this.title = title;
 		this.date = date;
 	}
+
+	public static Publication of(Long id) {
+		return new Publication(id, null, null);
+	}
 	
 	public static Publication of(Long id, String title, LocalDate date) {
 		return new Publication(id, title, date);

@@ -44,12 +44,16 @@ public class PublicationsService {
 	}
 	
 	@CacheResult(cacheName = "publicationsCache", exceptionCacheName = "exceptionsCache", cachedExceptions = NoResultFoundException.class, cacheKeyGenerator = CacheKeyGenerator.class)
-	public Publication findOne(Long id, String string) throws NoResultFoundException {
+	public Publication findOne(Long id) throws NoResultFoundException {
 		this.search(3);
 		return repository.stream()
 			.filter(p -> p.getId().equals(id))
 			.findFirst()
 			.orElseThrow(() -> new NoResultFoundException());
+	}
+	
+	public void modifyTitle(Publication publication, String newTitle) throws NoResultFoundException {
+		this.findOne(publication.getId()).setTitle(newTitle);
 	}
 	
 	private void search(long time) {

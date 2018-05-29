@@ -329,4 +329,91 @@ public class NoParamKeyGenerator implements CacheKeyGenerator {
 
 
 <!-- .slide: class="slide" -->
-### Modifications internes à l'application
+### Modifications internes à l’application
+Il s’agit du cas le plus simple
+
+Deux possibilités :
+
+ - Mettre à jour le cache avec `@CachePut`
+ 
+```java
+@CachePut(cacheName = "publications")
+public void update(Long id, @CacheValue Publication publication) {...}
+``` 
+
+ - Retirer l’élément modifié du cache avec `@CacheRemove`
+  - L’élément sera ajouté dans le cache la prochaine fois qu’il sera demandé
+
+```java
+@CacheRemove(cacheName = "publications")
+public void update(Long id) {...}
+```
+
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Modifications externes à l’application
+Il faut réussir à signaler à notre application que le cache doit être rafraichi
+
+Problème de communication entre applications
+
+Les solutions :
+ - Utiliser le *broker* de messages
+ - Passer par le système de fichiers
+ - Ouvrir des URL spécifiques et les appeler à partir d’autres applications
+ - …
+
+
+===
+
+
+## 5
+### Pour aller plus loin
+
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Particularités liées à l’exploitation au CEI
+Le cache n’est pas partagé entre les trois couloirs
+ - en général ce n’est pas important mais cela peut poser problème
+
+Les serveurs sont redémarrés toutes les nuits, le cache est donc vidé
+ - on peut persister le cache à l’arrêt du serveur et le charger au démarrage
+ - on peut aussi remplir le cache au démarrage du serveur dans une tache en arrière plan
+
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Remarques techniques
+Les annotations sont sans effet lors d’un appel depuis l’intérieur de la classe
+ - Il faut utiliser les proxys générés par Spring
+
+```java
+@CacheResult(cacheName = "publicationsCache")
+public Publication findOne(Long id) {...}
+```
+
+```java
+publicationService.findOne(3L); // Le cache est utilisé
+```
+
+```java
+this.findOne(3L); // Le cache n’est pas utilisé
+```
+
+On peut mettre en cache les exceptions :
+```java
+@CacheResult(cacheName = "cache", exceptionCacheName = "exceptionsCache", cachedExceptions = NoResultFoundException.class)
+public Publication findOne(Long id) throws NoResultFoundException {
+	return repository.stream()
+		.filter(p -> p.getId().equals(id))
+		.findFirst()
+		.orElseThrow(() -> new NoResultFoundException());
+}
+```
