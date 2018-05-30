@@ -11,6 +11,10 @@ public class Publication implements Serializable {
 	private String title;
 	private LocalDate date;
 	
+	public Publication() {
+		// Pour Jackson
+	}
+	
 	private Publication(Long id, String title, LocalDate date) {
 		super();
 		this.id = id;

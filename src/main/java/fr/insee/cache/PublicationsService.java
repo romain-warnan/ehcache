@@ -52,8 +52,11 @@ public class PublicationsService {
 			.orElseThrow(() -> new NoResultFoundException());
 	}
 	
-	public void modifyTitle(Publication publication, String newTitle) throws NoResultFoundException {
-		this.findOne(publication.getId()).setTitle(newTitle);
+	public Publication update(Publication publication) throws NoResultFoundException {
+		Publication oldPublication = this.findOne(publication.getId());
+		oldPublication.setTitle(publication.getTitle());
+		oldPublication.setDate(publication.getDate());
+		return oldPublication;
 	}
 	
 	private void search(long time) {

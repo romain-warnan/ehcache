@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +33,16 @@ public class PublicationsController {
 	public ResponseEntity<Publication> publication(@PathVariable("id") Long id) {
 		try {
 			return ResponseEntity.ok(service.findOne(id));
+		}
+		catch (NoResultFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	@PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<Publication> updatePublication(@RequestBody Publication publication) {
+		try {
+			return ResponseEntity.ok(service.update(publication));
 		}
 		catch (NoResultFoundException e) {
 			return ResponseEntity.notFound().build();
