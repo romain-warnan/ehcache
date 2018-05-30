@@ -7,7 +7,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.cache.annotation.CacheKeyGenerator;
+import javax.cache.annotation.CachePut;
 import javax.cache.annotation.CacheResult;
+import javax.cache.annotation.CacheValue;
 
 import org.springframework.stereotype.Service;
 
@@ -52,12 +54,14 @@ public class PublicationsService {
 			.orElseThrow(() -> new NoResultFoundException());
 	}
 	
-	public Publication update(Publication publication) throws NoResultFoundException {
-		Publication oldPublication = this.findOne(publication.getId());
+	@CachePut(cacheName = "publicationsCache")
+	public void update(Long id, @CacheValue Publication publication) throws NoResultFoundException {
+		Publication oldPublication = this.findOne(id);
 		oldPublication.setTitle(publication.getTitle());
 		oldPublication.setDate(publication.getDate());
-		return oldPublication;
 	}
+	
+	
 	
 	private void search(long time) {
 		try {
