@@ -119,7 +119,7 @@ ehcache.xml
 Exemple minimal :
 ```xml
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.ehcache.org/v3">
-	<cache alias="publicationsCache" uses-template="templateCache">
+	<cache alias="publicationsCache">
 		<heap unit="entries">1000</heap>
 	</cache>
 </config>
