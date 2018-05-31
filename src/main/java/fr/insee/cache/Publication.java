@@ -58,6 +58,20 @@ public class Publication implements Serializable {
 	public String toString() {
 		return String.format("Publication {id: %d, title: %s, date: %s}", id, title, date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 	}
+
+	@Override
+	public int hashCode() {
+		return id.intValue();
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if(object instanceof Publication) {
+			Publication other = (Publication) object;
+			return this.id.intValue() == other.id.intValue();
+		}
+		return false;
+	}
 	
 	
 }

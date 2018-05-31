@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,10 +40,21 @@ public class PublicationsController {
 		}
 	}
 	
-	@PostMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<Publication> updatePublication(@PathVariable Long id, @RequestBody Publication publication) {
+	@PostMapping("/{id}")
+	public ResponseEntity<Void> updatePublication(@PathVariable Long id, @RequestBody Publication publication) {
 		try {
 			service.update(id, publication);
+			return ResponseEntity.ok().build();
+		}
+		catch (NoResultFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Publication> deletePublication(@PathVariable Long id) {
+		try {
+			service.delete(id);
 			return ResponseEntity.ok().build();
 		}
 		catch (NoResultFoundException e) {

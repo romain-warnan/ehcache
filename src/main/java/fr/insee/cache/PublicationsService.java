@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import javax.cache.annotation.CacheKeyGenerator;
 import javax.cache.annotation.CachePut;
+import javax.cache.annotation.CacheRemove;
 import javax.cache.annotation.CacheResult;
 import javax.cache.annotation.CacheValue;
 
@@ -29,23 +29,27 @@ public class PublicationsService {
 		repository.add(Publication.of(8L, "Avril 2018 : Hausse des prix de 0,3 % en deux mois", LocalDate.of(2018,  3, 2)));
 		repository.add(Publication.of(9L, "Tableau de bord de la conjoncture", LocalDate.of(2018,  2, 12)));
 		repository.add(Publication.of(10L, "Taux de mortalité par cause de décès selon le sexe dans l'Union européenne en 2015", LocalDate.of(2018,  5, 24)));
+		System.out.println(repository.hashCode());
 	}
 	
 	
 	
-	@CacheResult(cacheName = "publicationsCache", cacheKeyGenerator = NoParamKeyGenerator.class)
+	@CacheResult(cacheName = "listePublicationsCache", cacheKeyGenerator = NoParamKeyGenerator.class)
 	public List<Publication> findAll() {
 		this.search(3);
 		return repository;
 	}
 	
-	@CacheResult(cacheName = "publicationsCache", cacheKeyGenerator = NoParamKeyGenerator.class)
+	@CacheResult(cacheName = "listePublicationsCache", cacheKeyGenerator = NoParamKeyGenerator.class)
 	public List<Publication> findLatest() {
 		this.search(3);
-		return repository.stream().limit(3).collect(Collectors.toList());
+		return repository.stream()
+			.sorted((p1, p2) -> p2.getDate().compareTo(p1.getDate()))
+			.limit(3)
+			.collect(Collectors.toList());
 	}
 	
-	@CacheResult(cacheName = "publicationsCache", exceptionCacheName = "exceptionsCache", cachedExceptions = NoResultFoundException.class, cacheKeyGenerator = CacheKeyGenerator.class)
+	@CacheResult(cacheName = "publicationsCache")
 	public Publication findOne(Long id) throws NoResultFoundException {
 		this.search(3);
 		return repository.stream()
@@ -61,7 +65,10 @@ public class PublicationsService {
 		oldPublication.setDate(publication.getDate());
 	}
 	
-	
+	@CacheRemove(cacheName = "publicationsCache")
+	public void delete(Long id) throws NoResultFoundException {
+		repository.remove(this.findOne(id));
+	}
 	
 	private void search(long time) {
 		try {
