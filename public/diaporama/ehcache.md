@@ -213,8 +213,9 @@ JCache
  - (–) génération des clés plus compliquées : `cacheKeyGenerator`
   
 Spring Cache
- - (+) plusieurs cache par opération
- - (+) gestion simple des clés : syntaxe type OGNL
+ - (+) plusieurs caches par opération
+ - (+) gestion simple des clés : syntaxe SpEL
+ - (+) gestion du type `Optional`
  - (–) Pas de gestion d'exceptions
 
 
@@ -363,6 +364,12 @@ public void update(Long id, @CacheValue Publication publication) {...}
 ```java
 @CacheRemove(cacheName = "publications")
 public void update(Long id) {...}
+```
+
+Pour vider entièrement un cache :
+```java
+@CacheRemoveAll(cacheName = "toutesPublicationsCache")
+public void viderCacheListePublications() {...}
 ```
 
 
