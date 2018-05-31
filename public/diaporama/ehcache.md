@@ -194,12 +194,28 @@ Ne faut pas confondre :
   - annotations JCache ou spécifique Spring
 
 Configuration
- - Langage :
-  - Java
-  - XML
- - Format :
-  - Ehcache
-  - JCache
+ - Langage
+  - Java ou XML
+ - Format
+  - Ehcache ou JCache
+
+
+===
+
+
+<!-- .slide: class="slide" -->
+### Comment choisir ?
+
+JCache
+ - (+) norme
+ - (+) gestion des exceptions
+ - (–) un seul cache par opération
+ - (–) génération des clés plus compliquées : `cacheKeyGenerator`
+  
+Spring Cache
+ - (+) plusieurs cache par opération
+ - (+) gestion simple des clés : syntaxe type OGNL
+ - (–) Pas de gestion d'exceptions
 
 
 ===
