@@ -33,6 +33,7 @@ public class PublicationsService {
 		repository.add(Publication.of(8L, "Avril 2018 : Hausse des prix de 0,3 % en deux mois", LocalDate.of(2018,  3, 2)));
 		repository.add(Publication.of(9L, "Tableau de bord de la conjoncture", LocalDate.of(2018,  2, 12)));
 		repository.add(Publication.of(10L, "Taux de mortalité par cause de décès selon le sexe dans l'Union européenne en 2015", LocalDate.of(2018,  5, 24)));
+		repository.add(Publication.of(11L, "Le retour de la clientèle étrangère dynamise la fréquentation", LocalDate.of(2018,  5, 31)));
 	}
 	
 	@CacheResult(cacheName = "listePublicationsCache", cacheKeyGenerator = NoParamKeyGenerator.class)
