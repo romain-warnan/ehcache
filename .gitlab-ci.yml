@@ -1,3 +1,20 @@
+before_script:
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -Dmaven.artifact.threads=1"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true" 
+  GIT_SSL_NO_VERIFY: "1"
+    
+package:
+  stage: test
+  script:
+    - 'mvn $MAVEN_CLI_OPTS package'
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  tags:
+    - maven
+
 pages:
   stage: deploy
   tags:
@@ -8,4 +25,16 @@ pages:
     paths:
     - public
   only:
-  - master
+  - master@wehdrc/ehcache
+  
+deploy-app:
+  stage: deploy
+  only:
+    - master@wehdrc/ehcache
+  tags:
+    - shell
+  script:
+    - 'APP_ID=`cat marathon.json | jq .id -r`'
+    - 'curl -d@marathon.json -H "Content-Type: application/json" -X PUT http://deploy.alpha.innovation.insee.eu/v2/apps/$APP_ID?force=true'
+    - 'curl -X POST http://deploy.alpha.innovation.insee.eu/v2/apps/$APP_ID/restart?force=true'
+

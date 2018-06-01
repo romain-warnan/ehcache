@@ -1,0 +1,38 @@
+{
+  "id": "/wehdrc/ehcache",
+  "cmd": null,
+  "cpus": 1,
+  "mem": 2048,
+  "disk": 0,
+  "instances": 1,
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "forcePullImage": false,
+      "image": "git-registry.stable.innovation.insee.eu/wehdrc/ehcache:latest",
+      "parameters": [],
+      "privileged": false
+    },
+    "portMappings": [
+      {
+        "containerPort": 8080,
+        "hostPort": 0,
+        "labels": {},
+        "protocol": "tcp"
+      }
+    ]
+  },
+  "labels": {
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "wehdrc-ehcache.dev.innovation.insee.eu",
+    "HAPROXY_0_FRONTEND_HEAD": "",
+    "HAPROXY_0_FRONTEND_BACKEND_GLUE": ""
+
+  },
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "portDefinitions": []
+}
