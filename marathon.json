@@ -8,7 +8,7 @@
   "container": {
     "type": "DOCKER",
     "docker": {
-      "forcePullImage": false,
+      "forcePullImage": true,
       "image": "git-registry.stable.innovation.insee.eu/wehdrc/ehcache:latest",
       "parameters": [],
       "privileged": false
