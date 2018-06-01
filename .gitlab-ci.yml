@@ -25,4 +25,16 @@ pages:
     paths:
     - public
   only:
-  - master
+  - master@wehdrc/ehcache
+  
+deploy-app:
+  stage: deploy
+  only:
+    - master@wehdrc/ehcache
+  tags:
+    - shell
+  script:
+    - 'APP_ID=`cat marathon.json | jq .id -r`'
+    - 'curl -d@marathon.json -H "Content-Type: application/json" -X PUT http://deploy.alpha.innovation.insee.eu/v2/apps/$APP_ID?force=true'
+    - 'curl -X POST http://deploy.alpha.innovation.insee.eu/v2/apps/$APP_ID/restart?force=true'
+
