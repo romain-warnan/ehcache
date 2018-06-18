@@ -16,11 +16,11 @@ src/test/
 .*-credentials
 
 node_modules/
-public/test/
-public/*.yml
-public/bower.json
-public/CONTRIBUTING.md
-public/demo.html
-public/LICENSE
-public/README.md
-public/package-lock.json
+docs/test/
+docs/*.yml
+docs/bower.json
+docs/CONTRIBUTING.md
+docs/demo.html
+docs/LICENSE
+docs/README.md
+docs/package-lock.json
